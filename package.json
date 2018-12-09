@@ -20,7 +20,7 @@
     "@babel/polyfill": "^7.0.0",
     "apollo-boost": "^0.1.22",
     "bcrypt": "^3.0.2",
-    "cross-fetch": "^2.2.3",
+    "cross-fetch": "^3.0.0",
     "env-cmd": "^8.0.2",
     "graphql": "^14.0.2",
     "graphql-yoga": "^1.16.7",
