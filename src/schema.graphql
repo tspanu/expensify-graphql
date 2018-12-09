@@ -1,15 +1,20 @@
-# import UserOrderByInput from './generated/prisma.graphql'
+# import UserOrderByInput, ExpenseOrderByInput from './generated/prisma.graphql'
 
 type Query {
     users(query: String, first: Int, skip: Int, after: String, orderBy: UserOrderByInput): [User!]!
+    expenses(query: String, first: Int, skip: Int, after: String, orderBy: ExpenseOrderByInput): [Expense!]!
+    expense(id: ID!): Expense!
     me: User!
 }
 
 type Mutation {
     createUser(data: CreateUserInput!): AuthPayload!
-    login(data: LoginUserInput!): AuthPayload!
-    deleteUser: User!
     updateUser(data: UpdateUserInput!): User!
+    deleteUser: User!
+    login(data: LoginUserInput!): AuthPayload!
+    createExpense(data: CreateExpenseInput!): Expense!
+    updateExpense(id: ID!, data: UpdateExpenseInput!): Expense!
+    deleteExpense(id: ID!): Expense!
 }
 
 # type Subscription {
@@ -38,12 +43,36 @@ input UpdateUserInput {
     password: String
 }
 
+input CreateExpenseInput {
+    description: String!
+    amount: Int!
+    date: Int!
+    note: String
+}
+
+input UpdateExpenseInput {
+    description: String
+    amount: Int
+    date: Int
+    note: String
+}
+
 type User {
     id: ID!
     name: String!
     email: String
+    expenses: [Expense!]!
     updatedAt: String!
     createdAt: String!
+}
+
+type Expense {
+  id: ID!
+  description: String!
+  amount: Int!
+  date: Int!
+  note: String
+  owner: User!
 }
 
 enum MutationType {

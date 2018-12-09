@@ -12,6 +12,18 @@ const User = {
                 return null
             }
         }
+    },
+    expenses: {
+        fragment: 'fragment userId on User { id }',
+        resolve(parent, args, { prisma }, info){
+            return prisma.query.expenses({
+                where: {
+                    owner: {
+                        id: parent.id
+                    }
+                }
+            })
+        }
     }
 }
 

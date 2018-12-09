@@ -3,6 +3,16 @@ type User {
   name: String!
   email: String! @unique
   password: String!
+  expenses: [Expense!]! @relation(name: "ExpenseToUser", onDelete: CASCADE)
   updatedAt: DateTime!
   createdAt: DateTime!
+}
+
+type Expense {
+  id: ID! @unique
+  description: String!
+  amount: Int!
+  date: Int!
+  note: String
+  owner: User! @relation(name: "ExpenseToPost", onDelete: SET_NULL)
 }

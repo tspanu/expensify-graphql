@@ -62,6 +62,63 @@ const Mutation = {
             },
             data
         }, info)
+    },
+    async createExpense(parent, { data }, { prisma, request }, info) {
+        const userId = getUserId(request)
+
+        return prisma.mutation.createExpense({
+            data: {
+                description: data.description,
+                amount: data.amount,
+                date: data.amount,
+                owner: {
+                    connect: {
+                        id: userId
+                    }
+                }
+            }
+        }, info)
+    },
+    async deleteExpense(parent, args, { prisma, request }, info) {
+        const userId = getUserId(request)
+
+        const expenseExists = await prisma.exists.Expense({
+            id: args.id,
+            owner: {
+                id: userId
+            }
+        })
+
+        if (!expenseExists) {
+            throw new Error('Unable to delete expense')
+        }
+
+        return prisma.mutation.deleteExpense({
+            where: {
+                id: args.id
+            }
+        }, info)
+    },
+    async updateExpense(parent, { id, data }, { prisma, request }, info) {
+        const userId = getUserId(request)
+
+        const expenseExists = await prisma.exists.Expense({
+            id: id,
+            owner: {
+                id: userId
+            }
+        })
+
+        if (!expenseExists) {
+            throw new Error('Unable to update expense')
+        }
+
+        return prisma.mutation.updateExpense({
+            where: {
+                id
+            },
+            data
+        }, info)
     }
 }
 
